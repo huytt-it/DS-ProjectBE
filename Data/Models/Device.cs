@@ -26,7 +26,7 @@ namespace Data.Models
         public string BoxName { get; set; }
         public string ScreenName { get; set; }
         public bool? IsHorizontal { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<DeviceScenario> DeviceScenario { get; set; }
         public virtual ICollection<PlaylistReport> PlaylistReport { get; set; }

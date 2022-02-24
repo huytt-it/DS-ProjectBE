@@ -16,7 +16,7 @@ namespace Data.Models
         public int LocationId { get; set; }
         public int BrandId { get; set; }
         public int DeviceId { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Device Device { get; set; }
         public virtual Location Location { get; set; }
     }

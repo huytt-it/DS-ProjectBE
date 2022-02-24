@@ -16,6 +16,7 @@ namespace Data.Models
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int LayoutId { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual Device Device { get; set; }
         public virtual Scenario Scenario { get; set; }

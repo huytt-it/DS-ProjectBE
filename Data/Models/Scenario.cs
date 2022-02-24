@@ -24,7 +24,7 @@ namespace Data.Models
         public bool? IsPublic { get; set; }
         public int AudioArea { get; set; }
         public DateTime? UpdateDateTime { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual Layout Layout { get; set; }
         public virtual ICollection<DeviceScenario> DeviceScenario { get; set; }

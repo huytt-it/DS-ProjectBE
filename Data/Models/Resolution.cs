@@ -14,7 +14,7 @@ namespace Data.Models
         public double Height { get; set; }
         public string Note { get; set; }
         public int BrandId { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Brand Brand { get; set; }
     }
 }

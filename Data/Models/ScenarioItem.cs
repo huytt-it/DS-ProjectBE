@@ -15,7 +15,7 @@ namespace Data.Models
         public int LayoutId { get; set; }
         public int DisplayOrder { get; set; }
         public string Note { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Playlist Playlist { get; set; }
         public virtual Scenario Scenario { get; set; }
     }

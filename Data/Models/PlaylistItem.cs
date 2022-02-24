@@ -14,7 +14,7 @@ namespace Data.Models
         public int PlaylistId { get; set; }
         public int DisplayOrder { get; set; }
         public int Duration { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual MediaSrc MediaSrc { get; set; }
         public virtual Playlist Playlist { get; set; }
     }

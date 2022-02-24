@@ -25,7 +25,7 @@ namespace Data.Models
         public string Description { get; set; }
         public string Extension { get; set; }
         public string SecurityHash { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual MediaType Type { get; set; }
         public virtual ICollection<PlaylistItem> PlaylistItem { get; set; }

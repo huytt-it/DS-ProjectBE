@@ -22,6 +22,7 @@ namespace Data.Models
         public bool IsHorizontal { get; set; }
         public string LayoutSrc { get; set; }
         public bool? IsPublic { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual ICollection<Area> Area { get; set; }
         public virtual ICollection<Scenario> Scenario { get; set; }

@@ -22,7 +22,7 @@ namespace Data.Models
         public bool? IsPublic { get; set; }
         public int? VisualTypeId { get; set; }
         public DateTime? UpdateDateTime { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual ICollection<PlaylistItem> PlaylistItem { get; set; }
         public virtual ICollection<ScenarioItem> ScenarioItem { get; set; }
     }

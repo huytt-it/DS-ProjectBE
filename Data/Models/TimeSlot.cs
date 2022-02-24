@@ -13,5 +13,6 @@ namespace Data.Models
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public int? TimeSlotFilterBinary { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace Data.Models
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public string PublicKey { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
         public virtual ICollection<Location> Location { get; set; }

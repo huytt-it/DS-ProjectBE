@@ -19,6 +19,7 @@ namespace Data.Models
         public double? Width { get; set; }
         public double? X { get; set; }
         public double? Y { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual Layout Layout { get; set; }
     }

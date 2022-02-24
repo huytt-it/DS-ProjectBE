@@ -22,7 +22,7 @@ namespace Data.Models
         public string Address { get; set; }
         public DateTime? CreateDatetime { get; set; }
         public string Description { get; set; }
-
+        public bool IsDelete { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual ICollection<Device> Device { get; set; }
         public virtual ICollection<PlaylistReport> PlaylistReport { get; set; }
