@@ -19,6 +19,10 @@ namespace Services.Mapping
 
 
             CreateMap<BrandCreateModel, Brand>();
+            CreateMap<Brand, BrandViewModel>();
+            CreateMap<BrandUpdateModel, Brand>()
+//                .ForMember(x=>x.BrandId, src =>src.Ignore())
+                .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
         }
     }
 }

@@ -20,6 +20,16 @@ namespace TaskManagement.Controllers
             _brandService = brandService;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBrandById(int id)
+        {
+            ResultModel result;
+
+            result = await _brandService.GetBrandById(id);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddBrand(BrandCreateModel model)
@@ -27,6 +37,16 @@ namespace TaskManagement.Controllers
             ResultModel result;
 
             result = await _brandService.AddBrand(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateBrand(BrandUpdateModel model)
+        {
+            ResultModel result;
+
+            result = await _brandService.UpdateBrand(model);
             if (result.IsSuccess) return Ok(result.ResponseSuccess);
             return NotFound(result.ResponseFailed);
         }

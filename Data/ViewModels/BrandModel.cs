@@ -23,6 +23,12 @@ namespace Data.ViewModels
         public string PublicKey { get; set; }
     }
 
+    public class BrandUpdateModel : BrandViewModel
+    {
+
+    }
+
+
     public class BrandViewModel
     {
         public int BrandId { get; set; }
