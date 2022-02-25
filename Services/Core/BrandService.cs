@@ -17,6 +17,7 @@ namespace Services.Core
         Task<ResultModel> AddBrand(BrandCreateModel model);
         Task<ResultModel> GetBrandById(int id);
         Task<ResultModel> UpdateBrand(BrandUpdateModel model);
+        Task<ResultModel> DeleteBrand(int id);
     }
     public class BrandService: IBrandService
     {
@@ -88,6 +89,32 @@ namespace Services.Core
                 }
 
                 brand = _mapper.Map(model, brand);
+                _context.Update(brand);
+                _context.SaveChanges();
+                result.IsSuccess = true;
+                result.ResponseSuccess = brand.BrandId;
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+
+            return result;
+        }
+
+        public async Task<ResultModel> DeleteBrand(int id)
+        {
+            ResultModel result = new ResultModel();
+
+            try
+            {
+                var brand = await _context.Brand.FirstOrDefaultAsync(x => x.BrandId == id);
+                if (brand == null)
+                {
+                    throw new Exception(ErrorMessage.ID_NOT_EXIST);
+                }
+
+                brand.IsDelete = true;
                 _context.Update(brand);
                 _context.SaveChanges();
                 result.IsSuccess = true;

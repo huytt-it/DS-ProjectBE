@@ -22,7 +22,7 @@ namespace TaskManagement.Extensions
         {
             services.AddOpenApiDocument(document =>
             {
-                document.Title = "Task Management Service";
+                document.Title = "DS_Project Service";
                 document.Version = "3.0";
                 document.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
                 {

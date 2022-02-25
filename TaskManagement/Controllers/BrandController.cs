@@ -50,5 +50,15 @@ namespace TaskManagement.Controllers
             if (result.IsSuccess) return Ok(result.ResponseSuccess);
             return NotFound(result.ResponseFailed);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBrand(int id)
+        {
+            ResultModel result;
+
+            result = await _brandService.DeleteBrand(id);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
     }
 }
