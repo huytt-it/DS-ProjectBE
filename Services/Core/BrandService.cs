@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Data.Common.PaginationModel;
 using Data.Constant;
 using Data.DataAccess;
+using Data.Enum;
 using Data.Models;
+using Data.Utility.Paging;
 using Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +21,7 @@ namespace Services.Core
         Task<ResultModel> GetBrandById(int id);
         Task<ResultModel> UpdateBrand(BrandUpdateModel model);
         Task<ResultModel> DeleteBrand(int id);
+        Task<ResultModel> GetBrands(PagingParam<SearchBrandOption> paginationModel);
     }
     public class BrandService: IBrandService
     {
@@ -29,6 +33,30 @@ namespace Services.Core
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public async Task<ResultModel> GetBrands(PagingParam<SearchBrandOption> paginationModel)
+        {
+            ResultModel result = new ResultModel();
+            try
+            {
+                var brands = _context.Brand.Where(c => !c.IsDelete);
+
+                var paging = new PagingModel(paginationModel.PageIndex, paginationModel.PageSize, brands.Count());
+
+                brands = brands.GetWithSorting(paginationModel.SortKey.ToString(), paginationModel.SortOrder);
+                brands = brands.GetWithPaging(paginationModel.PageIndex, paginationModel.PageSize);
+
+                var viewModels = await _mapper.ProjectTo<BrandViewModel>(brands).ToListAsync();
+                paging.Data = viewModels;
+                result.IsSuccess = true;
+                result.ResponseSuccess = paging;
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
         }
 
         public async Task<ResultModel> GetBrandById(int id)

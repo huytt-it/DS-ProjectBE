@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Common.PaginationModel;
+using Data.Enum;
 using Data.ViewModels;
 using Services.Core;
 
@@ -18,6 +20,16 @@ namespace TaskManagement.Controllers
         public BrandController(IBrandService brandService)
         {
             _brandService = brandService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBrands([FromQuery] PagingParam<SearchBrandOption> paginationModel)
+        {
+            ResultModel result;
+
+            result = await _brandService.GetBrands(paginationModel);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
         }
 
         [HttpGet("{id}")]
