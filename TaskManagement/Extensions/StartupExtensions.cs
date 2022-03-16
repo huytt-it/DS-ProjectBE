@@ -42,6 +42,7 @@ namespace TaskManagement.Extensions
         {
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

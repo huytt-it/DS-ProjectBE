@@ -8,4 +8,9 @@ namespace Data.Enum
     {
         BrandName,
     }
+
+    public enum UserOption
+    {
+        Name,
+    }
 }

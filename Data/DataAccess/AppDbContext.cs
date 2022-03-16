@@ -33,6 +33,10 @@ namespace Data.DataAccess
         public virtual DbSet<ScenarioItem> ScenarioItem { get; set; }
         public virtual DbSet<Schedule> Schedule { get; set; }
         public virtual DbSet<TimeSlot> TimeSlot { get; set; }
+        public virtual DbSet<DSUser> DSUser { get; set; }
+        public virtual DbSet<DSBuilding> DSBuilding { get; set; }
+        public virtual DbSet<DSMonitor> DSMonitor { get; set; }
+        public virtual DbSet<DSMedia> DSMedia { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
