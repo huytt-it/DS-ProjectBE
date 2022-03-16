@@ -13,4 +13,14 @@ namespace Data.Enum
     {
         Name,
     }
+
+    public enum DSBuildingOption
+    {
+        Name,
+    }
+
+    public enum DSMonitorOption
+    {
+        Name,
+    }
 }
