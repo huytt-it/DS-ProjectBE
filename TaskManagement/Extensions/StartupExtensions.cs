@@ -41,6 +41,7 @@ namespace TaskManagement.Extensions
         public static void AddBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<ILocationService, LocationService>();
         }
     }
 }

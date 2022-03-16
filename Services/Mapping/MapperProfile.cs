@@ -14,14 +14,17 @@ namespace Services.Mapping
         {
             CreateMap<DeviceCreateModel, Device>();
 
-            CreateMap<LocationCreateModel, Location>()
-                .ForMember(x=>x.LocationId, src=>src.MapFrom(x=>new Random().Next(999999)));
 
+
+            CreateMap<LocationCreateModel, Location>();
+            CreateMap<Location, LocationViewModel>();
+
+            CreateMap<LocationUpdateModel, Location>()
+                .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
 
             CreateMap<BrandCreateModel, Brand>();
             CreateMap<Brand, BrandViewModel>();
             CreateMap<BrandUpdateModel, Brand>()
-//                .ForMember(x=>x.BrandId, src =>src.Ignore())
                 .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
         }
     }
