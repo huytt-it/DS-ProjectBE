@@ -15,7 +15,7 @@ namespace Data.ViewModels
 
     public class DSMonitorCreateModel: DSMonitorModel
     {
-
+        public Guid BuildingId { get; set; }
     }
 
     public class DSMonitorUpdateModel : DSMonitorModel

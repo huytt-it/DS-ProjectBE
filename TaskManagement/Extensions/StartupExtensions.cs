@@ -45,6 +45,7 @@ namespace TaskManagement.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDSBuildingService, DSBuildingService>();
             services.AddScoped<IDSMonitorService, DSMonitorService>();
+            services.AddScoped<IDSMediaService, DSMediaService>();
         }
     }
 }

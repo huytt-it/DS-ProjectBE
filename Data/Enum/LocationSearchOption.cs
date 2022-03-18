@@ -23,4 +23,9 @@ namespace Data.Enum
     {
         Name,
     }
+
+    public enum DSMediaOption
+    {
+        Name,
+    }
 }
