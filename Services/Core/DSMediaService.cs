@@ -20,7 +20,8 @@ namespace Services.Core
         Task<ResultModel> Get(PagingParam<DSMediaOption> paginationModel);
         Task<ResultModel> GetById(Guid id);
         Task<ResultModel> Add(DSMediaCreateModel model);
-
+        Task<ResultModel> Update(DSMediaUpdateModel model);
+        Task<ResultModel> Delete(Guid id);
     }
 
 
@@ -50,7 +51,7 @@ namespace Services.Core
                 var viewModels = await _mapper.ProjectTo<DSMediaViewModel>(medias).ToListAsync();
                 paging.Data = viewModels;
                 result.IsSuccess = true;
-                result.ResponseSuccess = paging;
+                result.ResponseSuccess = viewModels;
             }
             catch (Exception e)
             {
@@ -100,6 +101,59 @@ namespace Services.Core
                 result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
             }
 
+            return result;
+        }
+
+
+        public async Task<ResultModel> Update(DSMediaUpdateModel model)
+        {
+            ResultModel result = new ResultModel();
+            var media = await _context.DSMedia.Where(r => r.Id == model.Id && !r.IsDeleted).FirstOrDefaultAsync();
+            if (media == null)
+            {
+                result.IsSuccess = false;
+                result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                return result;
+            }
+            try
+            {
+                media = _mapper.Map(model, media);
+                media.DateUpdated = DateTime.Now;
+                _context.Update(media);
+                await _context.SaveChangesAsync();
+
+                result.IsSuccess = true;
+                result.ResponseSuccess = _mapper.Map<DSMedia, DSMediaViewModel>(media);
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
+        }
+
+        public async Task<ResultModel> Delete(Guid id)
+        {
+            ResultModel result = new ResultModel();
+            try
+            {
+                var media = await _context.DSMedia.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefaultAsync();
+                if (media == null)
+                {
+                    result.IsSuccess = false;
+                    result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                    return result;
+                }
+                media.IsDeleted = true;
+                media.DateUpdated = DateTime.Now;
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.ResponseSuccess = "Deleted successfully";
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
             return result;
         }
     }

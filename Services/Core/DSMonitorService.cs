@@ -22,6 +22,9 @@ namespace Services.Core
         Task<ResultModel> GetById(Guid id);
         Task<ResultModel> Add(DSMonitorCreateModel model);
         Task<ResultModel> GetMonitorMedia(Guid id);
+        Task<ResultModel> Update(DSMonitorUpdateModel model);
+        Task<ResultModel> Delete(Guid id);
+
 
     }
     public class DSMonitorService: IDSMonitorService
@@ -50,7 +53,7 @@ namespace Services.Core
                 var viewModels = await _mapper.ProjectTo<DSMonitorViewModel>(monitors).ToListAsync();
                 paging.Data = viewModels;
                 result.IsSuccess = true;
-                result.ResponseSuccess = paging;
+                result.ResponseSuccess = viewModels;
             }
             catch (Exception e)
             {
@@ -129,6 +132,57 @@ namespace Services.Core
                 result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
             }
 
+            return result;
+        }
+
+        public async Task<ResultModel> Update(DSMonitorUpdateModel model)
+        {
+            ResultModel result = new ResultModel();
+            var monitor = await _context.DSMonitor.Where(r => r.Id == model.Id && !r.IsDeleted).FirstOrDefaultAsync();
+            if (monitor == null)
+            {
+                result.IsSuccess = false;
+                result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                return result;
+            }
+            try
+            {
+                monitor = _mapper.Map(model, monitor);
+                monitor.DateUpdated = DateTime.Now;
+                _context.Update(monitor);
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.ResponseSuccess = _mapper.Map<DSMonitor, DSMonitorViewModel>(monitor);
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+            return result;
+        }
+
+        public async Task<ResultModel> Delete(Guid id)
+        {
+            ResultModel result = new ResultModel();
+            try
+            {
+                var monitor = await _context.DSMonitor.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefaultAsync();
+                if (monitor == null)
+                {
+                    result.IsSuccess = false;
+                    result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                    return result;
+                }
+                monitor.IsDeleted = true;
+                monitor.DateUpdated = DateTime.Now;
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.ResponseSuccess = "Deleted successfully";
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
             return result;
         }
     }

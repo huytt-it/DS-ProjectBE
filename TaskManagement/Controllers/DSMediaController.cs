@@ -45,8 +45,25 @@ namespace TaskManagement.Controllers
         public async Task<IActionResult> Add(DSMediaCreateModel model)
         {
             ResultModel result;
-
             result = await _dsMediaService.Add(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
+        [HttpPut()]
+        public async Task<IActionResult> Update(DSMediaUpdateModel model)
+        {
+            ResultModel result;
+            result = await _dsMediaService.Update(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ResultModel result;
+            result = await _dsMediaService.Delete(id);
             if (result.IsSuccess) return Ok(result.ResponseSuccess);
             return NotFound(result.ResponseFailed);
         }

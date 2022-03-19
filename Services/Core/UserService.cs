@@ -50,7 +50,7 @@ namespace Services.Core
                 var viewModels = await _mapper.ProjectTo<DSUserViewModel>(users).ToListAsync();
                 paging.Data = viewModels;
                 result.IsSuccess = true;
-                result.ResponseSuccess = paging;
+                result.ResponseSuccess = viewModels;
             }
             catch (Exception e)
             {

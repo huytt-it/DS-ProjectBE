@@ -52,5 +52,25 @@ namespace TaskManagement.Controllers
             return NotFound(result.ResponseFailed);
         }
 
+        [HttpPut()]
+        public async Task<IActionResult> Update(DSBuildingUpdateModel model)
+        {
+            ResultModel result;
+
+            result = await _buildingService.Update(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ResultModel result;
+
+            result = await _buildingService.Delete(id);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
     }
 }

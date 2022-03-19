@@ -62,6 +62,24 @@ namespace TaskManagement.Controllers
             if (result.IsSuccess) return Ok(result.ResponseSuccess);
             return NotFound(result.ResponseFailed);
         }
+
+        [HttpPut()]
+        public async Task<IActionResult> Update(DSMonitorUpdateModel model)
+        {
+            ResultModel result;
+            result = await _monitorService.Update(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ResultModel result;
+            result = await _monitorService.Delete(id);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
     }
 
 }

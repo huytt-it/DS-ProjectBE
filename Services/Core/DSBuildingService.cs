@@ -20,6 +20,8 @@ namespace Services.Core
         Task<ResultModel> GetBuildings(PagingParam<DSBuildingOption> paginationModel);
         Task<ResultModel> GetBuildingById(Guid id);
         Task<ResultModel> Add(DSBuildingCreateModel model);
+        Task<ResultModel> Update(DSBuildingUpdateModel model);
+        Task<ResultModel> Delete(Guid id);
 
     }
 
@@ -49,7 +51,7 @@ namespace Services.Core
                 var viewModels = await _mapper.ProjectTo<DSBuildingViewModel>(buildings).ToListAsync();
                 paging.Data = viewModels;
                 result.IsSuccess = true;
-                result.ResponseSuccess = paging;
+                result.ResponseSuccess = viewModels;
             }
             catch (Exception e)
             {
@@ -99,6 +101,60 @@ namespace Services.Core
                 result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
             }
 
+            return result;
+        }
+
+        public async Task<ResultModel> Update(DSBuildingUpdateModel model)
+        {
+            ResultModel result = new ResultModel();
+            var building = await _context.DSBuilding.Where(r => r.Id == model.Id && !r.IsDeleted).FirstOrDefaultAsync();
+            if (building == null)
+            {
+                result.IsSuccess = false;
+                result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                return result;
+            }
+            try
+            {
+                building = _mapper.Map(model, building);
+                building.DateUpdated = DateTime.Now;
+                _context.Update(building);
+                await _context.SaveChangesAsync();
+
+                result.IsSuccess = true;
+                result.ResponseSuccess = _mapper.Map<DSBuilding, DSBuildingViewModel>(building);
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+
+            return result;
+
+        }
+
+        public async Task<ResultModel> Delete(Guid id)
+        {
+            ResultModel result = new ResultModel();
+            try
+            {
+                var building = await _context.DSBuilding.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefaultAsync();
+                if (building == null)
+                {
+                    result.IsSuccess = false;
+                    result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                    return result;
+                }
+                building.IsDeleted = true;
+                building.DateUpdated = DateTime.Now;
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.ResponseSuccess = "Deleted successfully";
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
             return result;
         }
     }
