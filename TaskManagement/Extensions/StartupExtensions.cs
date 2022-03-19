@@ -45,5 +45,15 @@ namespace TaskManagement.Extensions
             services.AddScoped<IDSMonitorService, DSMonitorService>();
             services.AddScoped<IDSMediaService, DSMediaService>();
         }
+
+        public static void ConfigCors(this IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("AllowAll", builder =>
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin())
+            );
+        }
     }
 }

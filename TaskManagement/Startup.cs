@@ -29,6 +29,7 @@ namespace TaskManagement
             services.AddPostgreDbContext(Configuration);
             // register (Authentication - JWT) Module 
             services.RegisterSecurityModule(Configuration);
+            services.ConfigCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
