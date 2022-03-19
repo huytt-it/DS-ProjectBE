@@ -14,8 +14,8 @@ namespace TaskManagement.Extensions
     {
         public static void AddPostgreDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>
-                (options => options.UseSqlServer(configuration.GetConnectionString("DbConnection")));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(configuration["ConnectionStrings:DbConnection"]));
 
         }
         public static void ConfigSwagger(this IServiceCollection services)
@@ -40,8 +40,6 @@ namespace TaskManagement.Extensions
         }
         public static void AddBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDSBuildingService, DSBuildingService>();
             services.AddScoped<IDSMonitorService, DSMonitorService>();

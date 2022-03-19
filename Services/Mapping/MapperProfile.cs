@@ -12,22 +12,6 @@ namespace Services.Mapping
     {
         public MapperProfile()
         {
-            CreateMap<DeviceCreateModel, Device>();
-
-
-
-            CreateMap<LocationCreateModel, Location>();
-            CreateMap<Location, LocationViewModel>();
-
-            CreateMap<LocationUpdateModel, Location>()
-                .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
-
-            CreateMap<BrandCreateModel, Brand>();
-            CreateMap<Brand, BrandViewModel>();
-            CreateMap<BrandUpdateModel, Brand>()
-                .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
-
-
 
             CreateMap<DSUserCreateModel, DSUser>();
             CreateMap<DSUser, DSUserViewModel>();
