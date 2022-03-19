@@ -21,6 +21,7 @@ namespace Services.Core
         Task<ResultModel> Get(PagingParam<DSMonitorOption> paginationModel);
         Task<ResultModel> GetById(Guid id);
         Task<ResultModel> Add(DSMonitorCreateModel model);
+        Task<ResultModel> GetMonitorMedia(Guid id);
 
     }
     public class DSMonitorService: IDSMonitorService
@@ -72,6 +73,34 @@ namespace Services.Core
                 }
 
                 var data = _mapper.Map<DSMonitor, DSMonitorViewModel>(monitor);
+                result.IsSuccess = true;
+                result.ResponseSuccess = data;
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
+
+            return result;
+        }
+
+        public async Task<ResultModel> GetMonitorMedia(Guid id)
+        {
+            ResultModel result = new ResultModel();
+
+            try
+            {
+                var monitor = await _context.DSMonitor.FirstOrDefaultAsync(x => x.Id == id);
+                if (monitor == null)
+                {
+                    throw new Exception(ErrorMessage.ID_NOT_EXIST);
+                }
+
+                var media = await _context.DSMedia.Where(x => !x.IsDeleted && x.MonitorId == monitor.Id).ToListAsync();
+
+
+                var data = _mapper.Map<DSMonitor, DSMonitorMediaViewModel>(monitor);
+                data.ListMedia = _mapper.Map<List<DSMedia>, List<DSMediaViewModel>>(media);
                 result.IsSuccess = true;
                 result.ResponseSuccess = data;
             }

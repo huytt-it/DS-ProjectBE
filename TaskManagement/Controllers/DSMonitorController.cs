@@ -32,6 +32,16 @@ namespace TaskManagement.Controllers
             return NotFound(result.ResponseFailed);
         }
 
+        [HttpGet("{id}/media")]
+        public async Task<IActionResult> GetByIdMedia(Guid id)
+        {
+            ResultModel result;
+
+            result = await _monitorService.GetMonitorMedia(id);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
         [HttpGet()]
         public async Task<IActionResult> Get([FromQuery] PagingParam<DSMonitorOption> paginationModel)
         {

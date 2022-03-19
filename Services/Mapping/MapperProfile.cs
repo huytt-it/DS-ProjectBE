@@ -25,6 +25,7 @@ namespace Services.Mapping
 
             CreateMap<DSMonitorCreateModel, DSMonitor>();
             CreateMap<DSMonitor, DSMonitorViewModel>();
+            CreateMap<DSMonitor, DSMonitorMediaViewModel>();
             CreateMap<DSMonitorUpdateModel, DSMonitor>()
                 .ForAllMembers(opt => opt.Condition((src, des, srcMember) => srcMember != null));
 

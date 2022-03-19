@@ -30,4 +30,9 @@ namespace Data.ViewModels
 
     }
 
+    public class DSMonitorMediaViewModel : DSMonitorViewModel
+    {
+        public List<DSMediaViewModel> ListMedia { get; set; }
+    }
+
 }

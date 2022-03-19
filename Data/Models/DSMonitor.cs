@@ -18,6 +18,9 @@ namespace Data.Models
         [ForeignKey("BuildingId")]
         public DSBuilding DSBuilding { get; set; }
 
+        public virtual ICollection<DSMedia> Media { get; set; }
+
+
 
     }
 }
