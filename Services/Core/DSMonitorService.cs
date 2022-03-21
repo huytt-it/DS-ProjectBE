@@ -102,8 +102,7 @@ namespace Services.Core
                 var media = await _context.DSMedia.Where(x => !x.IsDeleted && x.MonitorId == monitor.Id).ToListAsync();
 
 
-                var data = _mapper.Map<DSMonitor, DSMonitorMediaViewModel>(monitor);
-                data.ListMedia = _mapper.Map<List<DSMedia>, List<DSMediaViewModel>>(media);
+                var data = _mapper.Map<List<DSMedia>,List<DSMediaViewModel>>(media);
                 result.IsSuccess = true;
                 result.ResponseSuccess = data;
             }
