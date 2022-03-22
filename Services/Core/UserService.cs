@@ -21,6 +21,7 @@ namespace Services.Core
         Task<ResultModel> GetUser(PagingParam<UserOption> paginationModel);
         Task<ResultModel> AddUser(DSUserCreateModel model);
         Task<ResultModel> GetUserById(Guid id);
+        Task<ResultModel> Update(DSUserUpdateModel model);
     }
 
 
@@ -100,6 +101,32 @@ namespace Services.Core
                 result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
             }
 
+            return result;
+        }
+
+        public async Task<ResultModel> Update(DSUserUpdateModel model)
+        {
+            ResultModel result = new ResultModel();
+            var user = await _context.DSUser.Where(r => r.Id == model.Id && !r.IsDeleted).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                result.IsSuccess = false;
+                result.ResponseFailed = ErrorMessage.ID_NOT_EXIST;
+                return result;
+            }
+            try
+            {
+                user = _mapper.Map(model, user);
+                user.DateUpdated = DateTime.Now;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.ResponseSuccess = _mapper.Map<DSUser, DSUserViewModel>(user);
+            }
+            catch (Exception e)
+            {
+                result.ResponseFailed = e.InnerException != null ? e.InnerException.Message + "\n" + e.StackTrace : e.Message + "\n" + e.StackTrace;
+            }
             return result;
         }
     }

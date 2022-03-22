@@ -51,6 +51,16 @@ namespace TaskManagement.Controllers
             return NotFound(result.ResponseFailed);
         }
 
+        [HttpPut()]
+        public async Task<IActionResult> Update(DSUserUpdateModel model)
+        {
+            ResultModel result;
+
+            result = await _userService.Update(model);
+            if (result.IsSuccess) return Ok(result.ResponseSuccess);
+            return NotFound(result.ResponseFailed);
+        }
+
 
 
 
